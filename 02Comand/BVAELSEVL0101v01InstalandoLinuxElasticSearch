@@ -1,0 +1,124 @@
+# Instalación de ElasticSearch en Linux - Ubuntu 18
+
+## 1. Concepto
+	
+	Elasticsearch es un motor de búsqueda que se basa en Lucene el cual nos 
+	permite realizar búsquedas por una gran cantidad de datos de un texto 
+	específico. Está escrito en Java y se basa sobre una licencia Apache. 
+
+	Gracias al motor Lucene sobre el que está implementado, Elasticsearch nos 
+	ofrece capacidades de búsquedas de texto, autocompletado, soporte de geolocalización,…
+
+	En si mismo podríamos definir a Elasticsearch como un base de datos NoSQL orientada a documentos JSON, los cuales pueden ser consultados, creados, actualizados o borrados mediante un un sencillo API Rest.
+
+	1.1 Url :https://www.busindre.com/primeros_pasos_con_elasticsearch
+	
+	1.2 Preriquisitos
+		Instalar java 
+		
+## 2. Actualizaciones de linux 18.04
+
+### 2.1. Actualice los componentes del servidor
+
+	p028036@MongoElastic:~$sudo apt-get update
+
+### 2.2. Reiniciar el servidor
+
+	p028036@POME:~$reboot
+
+## 3. Herramientas requeridas (git, curl, wget)
+
+		git  : Control de cambios
+		curl : Para invocaciones por comando de url
+		wget : Para descargar componentes directmente desde el repositorio
+	
+	3.1. p028036@POME:~$sudo apt install curl
+	
+	3.2. p028036@POME:~$sudo apt install git
+
+	3.3. Para la versión 18.04 de mongo y ubuntu eliminar estas dependencias 
+	
+		p028036@POME:~$sudo apt purge mongodb
+
+## 4. Instalación de ElasticSearch
+
+
+### 4.1. Descargar el paquete .deb
+
+	p028036@POME:~$wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+
+	La verificación del checksum garantiza que el paquete haya sido descargado correctamente y debe retornar "OK":
+
+	OK
+	p028036@OPME:~$
+
+### Crea una lista de file para ElasticSearch:  /etc/apt/sources.list.d/mongodb-enterprise.list
+
+	p028036@POME:~$sudo sh -c 'echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" > /etc/apt/sources.list.d/elastic-7.x.list'
+	
+	
+### Instalando los paquetes de mongodb
+	Una vez que el repositorio esté habilitado, actualice la aptlista de paquetes e instale el motor Elasticsearch escribiendo:
+
+	p028036@POME:~$sudo apt update
+	
+	:::
+		Obj:1 http://pe.archive.ubuntu.com/ubuntu bionic InRelease
+		Ign:2 http://repo.mongodb.com/apt/ubuntu bionic/mongodb-enterprise/4.2 InRelease
+		Des:3 https://artifacts.elastic.co/packages/7.x/apt stable InRelease [7.123 B]
+		Ign:4 http://apt.postgresql.org/pub/repos/apt -pgdg InRelease         
+		Obj:5 http://repo.mongodb.com/apt/ubuntu bionic/mongodb-enterprise/4.2 Release
+		Des:6 https://artifacts.elastic.co/packages/7.x/apt stable/main amd64 Packages [30,7 kB]
+		Err:7 http://apt.postgresql.org/pub/repos/apt -pgdg Release           
+		404  Not Found [IP: 118.180.54.170 8080]
+		Des:9 https://artifacts.elastic.co/packages/7.x/apt stable/main i386 Packages [24,7 kB]
+		Leyendo lista de paquetes... Hecho
+		E: El repositorio «http://apt.postgresql.org/pub/repos/apt -pgdg Release» no tiene un fichero de Publicación.
+		N: No se puede actualizar de un repositorio como este de forma segura y por tanto está deshabilitado por omisión.
+		N: Vea la página de manual apt-secure(8) para los detalles sobre la creación de repositorios y la configuración de usuarios.
+	:::
+	
+	p028036@POME:~$sudo apt install elasticsearch
+
+	:::
+		Leyendo lista de paquetes... Hecho
+		Creando árbol de dependencias       
+		Leyendo la información de estado... Hecho
+		Se actualizarán los siguientes paquetes:
+		elasticsearch
+		1 actualizados, 0 nuevos se instalarán, 0 para eliminar y 0 no actualizados.
+		Se necesita descargar 296 MB de archivos.
+		Se utilizarán 6.757 kB de espacio de disco adicional después de esta operación.
+		Des:1 https://artifacts.elastic.co/packages/7.x/apt stable/main amd64 elasticsearch amd64 7.6.1 [296 MB]
+
+	:::
+
+	El servicio Elasticsearch no se iniciará automáticamente una vez que se complete el proceso de instalación. Para iniciar el servicio y habilitar la ejecución del servicio:
+
+
+### Visualizado el contenido del archivo mongodb-enterprise.list
+
+	p028036@MongoElastic:~$vim /etc/apt/sources.list.d/mongodb-enterprise.list
+	
+### Reload local package database.
+
+	p028036@MongoElastic:~$sudo apt-get update	
+	
+	p028036@MongoElastic:~$sudo apt-get upgrade
+
+### Install the MongoDB Enterprise packages
+
+	p028036@MongoElastic:~$sudo apt-get install -y mongodb-enterprise
+
+
+## 5. Directorio creados 
+
+	Por defecto se ha creado las carpetas /var/lib/mongodb y /var/log/mongodb
+	
+	p028036@MongoElastic:~$ls -l /var/lib/mongodb/*
+	
+	p028036@MongoElastic:~$ls -l /var/log/mongodb/*
+	
+
+
+
