@@ -43,7 +43,7 @@
 ## 4. Instalación de ElasticSearch
 
 
-### 4.1. Descargar el paquete .deb
+###4.1. Descargar el paquete .deb
 
 	p028036@POME:~$wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
 
@@ -52,12 +52,12 @@
 	OK
 	p028036@OPME:~$
 
-### Crea una lista de file para ElasticSearch:  /etc/apt/sources.list.d/mongodb-enterprise.list
+###4.2. Crea una lista de file para ElasticSearch:  /etc/apt/sources.list.d/mongodb-enterprise.list
 
 	p028036@POME:~$sudo sh -c 'echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" > /etc/apt/sources.list.d/elastic-7.x.list'
 	
 	
-### Instalando los paquetes de mongodb
+###4.3. Instalando los paquetes de mongodb
 	Una vez que el repositorio esté habilitado, actualice la aptlista de paquetes e instale el motor Elasticsearch escribiendo:
 
 	p028036@POME:~$sudo apt update
@@ -77,7 +77,13 @@
 		N: No se puede actualizar de un repositorio como este de forma segura y por tanto está deshabilitado por omisión.
 		N: Vea la página de manual apt-secure(8) para los detalles sobre la creación de repositorios y la configuración de usuarios.
 	:::
-	
+
+###4.4. Visualizado el contenido del archivo elastic-7.x.list
+
+	p028036@POME:~$vim /etc/apt/sources.list.d/elastic-7.x.list
+
+###4.5. Install the ElasticSearch packages
+
 	p028036@POME:~$sudo apt install elasticsearch
 
 	:::
@@ -96,29 +102,89 @@
 	El servicio Elasticsearch no se iniciará automáticamente una vez que se complete el proceso de instalación. Para iniciar el servicio y habilitar la ejecución del servicio:
 
 
-### Visualizado el contenido del archivo mongodb-enterprise.list
+###4.6. Reload local package database.
 
-	p028036@MongoElastic:~$vim /etc/apt/sources.list.d/mongodb-enterprise.list
+	p028036@POME:~$sudo apt-get update	
 	
-### Reload local package database.
-
-	p028036@MongoElastic:~$sudo apt-get update	
-	
-	p028036@MongoElastic:~$sudo apt-get upgrade
-
-### Install the MongoDB Enterprise packages
-
-	p028036@MongoElastic:~$sudo apt-get install -y mongodb-enterprise
-
+	p028036@POME:~$sudo apt-get upgrade
 
 ## 5. Directorio creados 
 
-	Por defecto se ha creado las carpetas /var/lib/mongodb y /var/log/mongodb
+	Por defecto se ha creado las carpetas /var/lib/elasticsearch y /var/log/elasticsearch
 	
-	p028036@MongoElastic:~$ls -l /var/lib/mongodb/*
+	p028036@MongoElastic:~$ls -l /var/lib/elasticsearch/*
+	:::
+		ls: no se puede acceder a '/var/lib/elasticsearch/*': Permiso denegado
+	:::
+	p028036@MongoElastic:~$ls -l /var/log/elasticsearch/*
+	:::
+		ls: no se puede acceder a '/var/log/elasticsearch/*': Permiso denegado
+	:::
+
+##6. Cambiar la configuracion
+	Ingresar con el usuario root y clave Bbv@1908
 	
-	p028036@MongoElastic:~$ls -l /var/log/mongodb/*
+	p028036@OPME:~$ sudo su root
+	root@OPME:/home/p028036# pwd
+	/home/p028036
+
+##7. Ingresar la carpeta de configuracion elastic
+
+	root@OPME:/home/p028036# cd /etc/elasticsearch
+	root@OPME:/etc/elasticsearch# ls -l
+	:::
+	total 40
+	-rw-rw---- 1 root elasticsearch   199 mar 12 14:05 elasticsearch.keystore
+	-rw-rw---- 1 root elasticsearch  2847 set 27 03:48 elasticsearch.yml
+	-rw-rw---- 1 root elasticsearch  2373 feb 28 19:23 jvm.options
+	-rw-rw---- 1 root elasticsearch 17545 set 27 03:48 log4j2.properties
+	-rw-rw---- 1 root elasticsearch   473 set 27 03:48 role_mapping.yml
+	-rw-rw---- 1 root elasticsearch   197 set 27 03:48 roles.yml
+	-rw-rw---- 1 root elasticsearch     0 set 27 03:48 users
+	-rw-rw---- 1 root elasticsearch     0 set 27 03:48 users_roles
+	:::
+	root@OPME:/etc/elasticsearch#
+
+##8. Editar el archivo elasticsearch.ym
+
+	root@OPME:/etc/elasticsearch# vim elasticsearch.yml
+	:::
+		#network.host: 192.168.0.1
+		network.host: localhost
+		#
+		# Set a custom port for HTTP:
+		#
+		#http.port: 9200
+		http.port: 9200
+	:::
+
+	root@OPME:/etc/elasticsearch# exit
+	:::
+		exit
+	:::
 	
+	p028036@OPME:~$	
 
+##9. Reiniciar el servicio
 
-
+	p028036@OPME:~$	sudo systemctl restart elasticsearch
+	
+##10. Verificar el estatus
+	p028036@OPME:~$	sudo systemctl status elasticsearch
+	:::
+		● elasticsearch.service - Elasticsearch
+		Loaded: loaded (/usr/lib/systemd/system/elasticsearch.service; enabl
+		Active: active (running) since Thu 2020-03-12 15:55:49 -05; 7s ago
+			Docs: http://www.elastic.co
+		Main PID: 5209 (java)
+			Tasks: 64 (limit: 4674)
+		CGroup: /system.slice/elasticsearch.service
+				├─5209 /usr/share/elasticsearch/jdk/bin/java -Des.networkadd
+				└─5287 /usr/share/elasticsearch/modules/x-pack-ml/platform/l
+		
+		mar 12 15:55:26 OPME systemd[1]: Stopped Elasticsearch.
+		mar 12 15:55:26 OPME systemd[1]: Starting Elasticsearch...
+		mar 12 15:55:27 OPME elasticsearch[5209]: OpenJDK 64-Bit Server VM warn
+		mar 12 15:55:49 OPME systemd[1]: Started Elasticsearch.		
+	:::
+##11. 

@@ -2,76 +2,58 @@
 
 ## 1. Concepto
 	
-	Iniciar una instancia de MongoDB
+	Iniciar una instancia de ElasticSearch
 	
-## 1. Start MongoDB
+## 1. Start ElasticSearch
 	
-	p028036@MongoElastic:~$sudo service mongodb start
-	p028036@OPME:~$ sudo systemctl start mongodb
+	p028036@MongoElastic:~$sudo service ElasticSearch start
+	p028036@OPME:~$ sudo systemctl start elasticsearch
 	
-	p028036@OPME:~$ sudo systemctl status mongodb
-		● mongodb.service - An object/document-oriented database
-		Loaded: loaded (/lib/systemd/system/mongodb.service; enabled; vendor pres
-		Active: active (running) since Thu 2020-02-13 17:32:52 -05; 4s ago
-			Docs: man:mongod(1)
-		Main PID: 3788 (mongod)
-			Tasks: 23 (limit: 4673)
-		CGroup: /system.slice/mongodb.service
-				└─3788 /usr/bin/mongod --unixSocketPrefix=/run/mongodb --config /
+	p028036@OPME:~$ sudo systemctl status elasticsearch
+	:::
+		Loaded: loaded (/usr/lib/systemd/system/elasticsearch.service; enabl
+		Active: active (running) since Thu 2020-03-12 15:24:44 -05; 10min ag
+			Docs: http://www.elastic.co
+		Main PID: 4742 (java)
+			Tasks: 55 (limit: 4674)
+		CGroup: /system.slice/elasticsearch.service
+				├─4742 /usr/share/elasticsearch/jdk/bin/java -Des.networkadd
+				└─4820 /usr/share/elasticsearch/modules/x-pack-ml/platform/l
 		
-		feb 13 17:32:52 OPME systemd[1]: Started An object/document-oriented databas
-		lines 1-10/10 (END)
+		mar 12 15:24:22 OPME systemd[1]: Starting Elasticsearch...
+		mar 12 15:24:23 OPME elasticsearch[4742]: OpenJDK 64-Bit Server VM warn
+		mar 12 15:24:44 OPME systemd[1]: Started Elasticsearch.
+	:::
 
 	
-## 2. Verify that MongoDB has started successfully
+## 2. Verify that ElasticSearch has started successfully
 
-	p028036@MongoElastic:~$vim /var/log/mongodb/mongod.log
+	p028036@OPME:~$vim /var/log/elasticsearch/elasticsearch.log
 
-## 3. Stop MongoDB
+## 3. Stop ElasticSearch
 
-	p028036@MongoElastic:~$sudo service mongodb stop
-	p028036@MongoElastic:~$sudo systemctl stop mongodb
+	p028036@OPME:~$sudo service elasticsearch stop
+	p028036@OPME:~$sudo systemctl stop elasticsearch
 	
-	p028036@OPME:~$ sudo systemctl status mongodb
-		● mongodb.service - An object/document-oriented database
-		Loaded: loaded (/lib/systemd/system/mongodb.service; enabled; vendor pres
-		Active: inactive (dead) since Thu 2020-02-13 17:30:30 -05; 27s ago
-			Docs: man:mongod(1)
-		Process: 3118 ExecStart=/usr/bin/mongod --unixSocketPrefix=${SOCKETPATH} -
-		Main PID: 3118 (code=exited, status=0/SUCCESS)
-		
-		feb 13 17:24:34 OPME systemd[1]: Started An object/document-oriented databas
-		feb 13 17:30:30 OPME systemd[1]: Stopping An object/document-oriented databa
-		feb 13 17:30:30 OPME systemd[1]: Stopped An object/document-oriented databas
-		lines 1-10/10 (END)
-
-## 4. Restart MongoDB
-
-	p028036@MongoElastic:~$sudo service mongod restart
-	
-## 5. Begin using MongoDB
-
-	
-	p028036@MongoElastic:~$mongo	
-
-
-## 6. Estatus de mongo
-
-	p028036@OPME:~$ sudo service mongodb status
-	p028036@OPME:~$ sudo systemctl status mongodb
+	p028036@OPME:~$ sudo systemctl status elasticsearch
 	
 	:::
-		p028036@OPME:~$ sudo systemctl status mongodb
-		● mongodb.service - An object/document-oriented database
-		Loaded: loaded (/lib/systemd/system/mongodb.service; enabled; vendor pres
-		Active: active (running) since Thu 2020-02-13 17:24:34 -05; 2min 34s ago
-			Docs: man:mongod(1)
-		Main PID: 3118 (mongod)
-			Tasks: 23 (limit: 4673)
-		CGroup: /system.slice/mongodb.service
-				└─3118 /usr/bin/mongod --unixSocketPrefix=/run/mongodb --config /
+		● elasticsearch.service - Elasticsearch
+		Loaded: loaded (/usr/lib/systemd/system/elasticsearch.service; enabl
+		Active: inactive (dead) since Thu 2020-03-12 15:37:02 -05; 9s ago
+			Docs: http://www.elastic.co
+		Process: 4742 ExecStart=/usr/share/elasticsearch/bin/elasticsearch -p
+		Main PID: 4742 (code=exited, status=143)
 		
-		feb 13 17:24:34 OPME systemd[1]: Started An object/document-oriented databas
-		p028036@OPME:~$ 
-
+		mar 12 15:24:22 OPME systemd[1]: Starting Elasticsearch...
+		mar 12 15:24:23 OPME elasticsearch[4742]: OpenJDK 64-Bit Server VM warn
+		mar 12 15:24:44 OPME systemd[1]: Started Elasticsearch.
+		mar 12 15:37:01 OPME systemd[1]: Stopping Elasticsearch...
+		mar 12 15:37:02 OPME systemd[1]: Stopped Elasticsearch.
 	:::
+
+## 4. Restart ElasticSearch
+
+	p028036@OPME:~$sudo service elasticsearch restart
+	p028036@OPME:~$sudo systemctl restart elasticsearch
+	

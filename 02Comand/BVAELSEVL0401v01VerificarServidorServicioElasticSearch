@@ -3,18 +3,63 @@
 ## 1. Concepto
 	
 	Verificar servicio
-	
-## 1. Comprobar el servicios y la base de datos
 
-	p028036@OPME:~$ mongo --eval 'db.runCommand({connectionStatus:1})'
-		MongoDB shell version v3.6.3
-		connecting to: mongodb://127.0.0.1:27017
-		MongoDB server version: 3.6.3
+
+## 1. Comprobar el acceso al cluster y nodo
+
+	p028036@OPME:~$ curl -X GET "localhost:9200/"
+	
+	:::
 		{
-			"authInfo" : {
-				"authenticatedUsers" : [ ],
-				"authenticatedUserRoles" : [ ]
-			},
-			"ok" : 1
+		"name" : "OPME",
+		"cluster_name" : "elasticsearch",
+		"cluster_uuid" : "sZgd4HOcQPejhw3Jyh8ZAA",
+		"version" : {
+			"number" : "7.6.1",
+			"build_flavor" : "default",
+			"build_type" : "deb",
+			"build_hash" : "aa751e09be0a5072e8570670309b1f12348f023b",
+			"build_date" : "2020-02-29T00:15:25.529771Z",
+			"build_snapshot" : false,
+			"lucene_version" : "8.4.0",
+			"minimum_wire_compatibility_version" : "6.8.0",
+			"minimum_index_compatibility_version" : "6.0.0-beta1"
+		},
+		"tagline" : "You Know, for Search"
 		}
+	:::
+	
+	p028036@OPME:~$
+
+##2. Caso: Estoy accediendo por medio de una máquina virtual. Sin embargo estoy conectado 
+	por Wiffi, 
+
+	p028036@OPME:~$ curl -X GET "localhost:9200/"
+	
+	curl: (7) Failed to connect to 118.180.54.170 port 8080: Expiró el tiempo de conexión
+
+	Aplicar el noproxy afin de obviar su ejecución con prox
+	p028036@OPME:~$ curl -X GET "localhost:9200/" --noproxy "*"
+
+	
+	:::
+		{
+		"name" : "OPME",
+		"cluster_name" : "elasticsearch",
+		"cluster_uuid" : "sZgd4HOcQPejhw3Jyh8ZAA",
+		"version" : {
+			"number" : "7.6.1",
+			"build_flavor" : "default",
+			"build_type" : "deb",
+			"build_hash" : "aa751e09be0a5072e8570670309b1f12348f023b",
+			"build_date" : "2020-02-29T00:15:25.529771Z",
+			"build_snapshot" : false,
+			"lucene_version" : "8.4.0",
+			"minimum_wire_compatibility_version" : "6.8.0",
+			"minimum_index_compatibility_version" : "6.0.0-beta1"
+		},
+		"tagline" : "You Know, for Search"
+		}
+	:::
+	
 	p028036@OPME:~$

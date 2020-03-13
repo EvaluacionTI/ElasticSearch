@@ -1,16 +1,16 @@
 # DesInstalación de Mongo en Linux - Ubuntu 14
 
-## 1. Stop MongoDB
+## 1. Stop ElasticSearch
 	
-	p028036@MongoElastic:~$sudo service mongod stop
+	p028036@POME:~$sudo service elasticsearch stop
 	
 ## 2. Remove packages
 
-	p028036@MongoElastic:~$sudo apt-get purge mongodb-enterprise*
+	p028036@POME:~$sudo apt-get purge mongodb-enterprise*
 
 ## 3. Remove data directorios
 
-	p028036@MongoElastic:~$sudo rm -r /var/log/mongodb
+	p028036@POME:~$sudo rm -r /var/log/elasticsearch
 
-	p028036@MongoElastic:~$sudo rm -r /var/lib/mongodb
+	p028036@POME:~$sudo rm -r /var/lib/elasticsearch
 	
